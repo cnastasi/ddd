@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Cnastasi\DDD\ValueObject;
 
-use Cnastasi\DDD\SimpleValueObject;
+use Cnastasi\DDD\Contract\SimpleValueObject;
+use Cnastasi\DDD\Error\InvalidIdFormat;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 

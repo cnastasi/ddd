@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cnastasi\DDD\ValueObject;
 
 use Cnastasi\DDD\Contract\CompositeValueObject;
+use Cnastasi\DDD\ValueObject\Primitive\DateTime;
 
 abstract class Entity implements CompositeValueObject
 {

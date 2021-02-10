@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Payment\Core\Model;
+namespace Cnastasi\DDD\ValueObject;
+
+use Cnastasi\DDD\ValueObject\Primitive\Integer;
 
 abstract class IntegerId extends Integer
 {

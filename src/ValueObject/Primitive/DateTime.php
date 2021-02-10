@@ -2,9 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Cnastasi\DDD\ValueObject;
+namespace Cnastasi\DDD\ValueObject\Primitive;
 
 use Cnastasi\DDD\Contract\CompositeValueObject;
+use Cnastasi\DDD\ValueObject\Primitive\Date;
+use Cnastasi\DDD\ValueObject\InvalidDate;
+use Cnastasi\DDD\ValueObject\InvalidDateTime;
+use Cnastasi\DDD\ValueObject\InvalidTime;
+use Cnastasi\DDD\ValueObject\Primitive\Time;
 
 final class DateTime implements CompositeValueObject
 {

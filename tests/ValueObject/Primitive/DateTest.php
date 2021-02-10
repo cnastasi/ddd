@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-use Cnastasi\DDD\ValueObject\Date;
+namespace Cnastasi\DDD\ValueObject\Primitive;
+
 use PHPUnit\Framework\TestCase;
 
 class DateTest extends TestCase
 {
     /**
-     * @covers \Cnastasi\DDD\ValueObject\Date::__construct
+     * @covers \Cnastasi\DDD\ValueObject\Primitive\Date::__construct
      */
     public function test_constructor(): void
     {
@@ -24,12 +25,12 @@ class DateTest extends TestCase
     }
 
     /**
-     * @covers \Cnastasi\DDD\ValueObject\Date::now
+     * @covers \Cnastasi\DDD\ValueObject\Primitive\Date::now
      */
     public function test_now(): void
     {
         $now = Date::now();
-        $expectedNow = new DateTimeImmutable();
+        $expectedNow = new \DateTimeImmutable();
 
         $years = (int)$expectedNow->format('Y');
         $months = (int)$expectedNow->format('m');
@@ -39,6 +40,4 @@ class DateTest extends TestCase
         self::assertSame($months, $now->getMonths());
         self::assertSame($days, $now->getDays());
     }
-
-
 }

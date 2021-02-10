@@ -2,19 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Cnastasi\DDD\ValueObject;
+namespace Cnastasi\DDD\ValueObject\Primitive;
 
-use Carbon\CarbonImmutable;
-use Carbon\Exceptions\InvalidFormatException;
-use Cnastasi\Serializer\Contract\SimpleValueObject;
+use Cnastasi\DDD\Contract\SimpleValueObject;
+use Cnastasi\DDD\Error\InvalidFormat;
+use Cnastasi\DDD\Error\InvalidTime;
+use DateTimeImmutable;
 use DateTimeInterface;
-use Payment\Core\Exception\InvalidTime;
 
 final class Time implements SimpleValueObject
 {
     private const TIME_FORMAT = 'H:i:s';
-
-    private CarbonImmutable $time;
 
     private int $hours;
 
@@ -24,18 +22,18 @@ final class Time implements SimpleValueObject
 
     public function __construct($value)
     {
-        $time = ($value instanceof \DateTimeInterface)
+        $time = ($value instanceof DateTimeInterface)
             ? $this->convertOrFail($value)
             : $this->parseOrFail((string) $value);
 
-        $this->hours = $time->hour;
-        $this->minutes = $time->minute;
-        $this->seconds = $time->second;
+        $this->hours = (int) $time->format('H');
+        $this->minutes = (int) $time->format('i');
+        $this->seconds = (int) $time->format('s');
     }
 
     public static function now(): Time
     {
-        return new Time(CarbonImmutable::now());
+        return new Time(new DateTimeImmutable());
     }
 
     public function getHours(): int
@@ -63,13 +61,13 @@ final class Time implements SimpleValueObject
         return $this->value();
     }
 
-    private function parseOrFail(string $value): CarbonImmutable
+    private function parseOrFail(string $value): DateTimeImmutable
     {
         $time = null;
 
         try {
-            $time = CarbonImmutable::createFromFormat(self::TIME_FORMAT, $value);
-        } catch (InvalidFormatException $exception) {
+            $time = DateTimeImmutable::createFromFormat(self::TIME_FORMAT, $value);
+        } catch (InvalidFormat $exception) {
             throw new InvalidTime($value);
         }
 
@@ -80,10 +78,12 @@ final class Time implements SimpleValueObject
         return $time;
     }
 
-    protected function convertOrFail(DateTimeInterface $value): CarbonImmutable
+    protected function convertOrFail(DateTimeInterface $value): DateTimeImmutable
     {
         try {
-            return ($value instanceof CarbonImmutable) ? $value : CarbonImmutable::instance($value);
+            return $value instanceof DateTimeImmutable
+                ? $value
+                : DateTimeImmutable::createFromFormat(self::TIME_FORMAT, $value);
         } catch (\Exception $e) {
             throw new InvalidTime($value->format(self::TIME_FORMAT));
         }
