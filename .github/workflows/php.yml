@@ -23,6 +23,7 @@ jobs:
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install --prefer-dist --no-progress --no-suggest
   test:
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
       - name: Run test suite
