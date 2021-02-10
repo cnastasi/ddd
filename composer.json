@@ -13,7 +13,9 @@
     "ramsey/uuid": "^4.1"
   },
   "require-dev": {
-    "phpunit/phpunit": "^9.5"
+    "phpunit/phpunit": "^9.5",
+    "phpstan/phpstan": "^0.12.74",
+    "friendsofphp/php-cs-fixer": "^2.18"
   },
   "autoload": {
     "psr-4": {
@@ -24,5 +26,12 @@
     "psr-4": {
       "Cnastasi\\DDD\\": "tests/"
     }
+  },
+  "scripts": {
+    "test": "phpunit",
+    "test-with-coverage": "phpunit --coverage-clover clover.xml ",
+    "phpstan": "phpstan analyze src tests",
+    "cs-check": "php-cs-fixer fix --dry-run --diff src/",
+    "cs-fix": "php-cs-fixer fix --diff src/"
   }
 }
