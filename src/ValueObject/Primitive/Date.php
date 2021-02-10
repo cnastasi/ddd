@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cnastasi\DDD\ValueObject;
+namespace Cnastasi\DDD\ValueObject\Primitive;
 
 use Cnastasi\DDD\Contract\CompositeValueObject;
 use Cnastasi\DDD\Contract\Serializable;

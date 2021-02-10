@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Payment\Core\Model;
+namespace Cnastasi\DDD\ValueObject;
 
 use ArrayObject;
-use Cnastasi\Serializer\Contract\Collection;
-use Cnastasi\Serializer\Contract\ValueObject;
-use Payment\Core\Exception\UnsupportedCollectionItem;
+use Cnastasi\DDD\Contract\Collection;
+use Cnastasi\DDD\Contract\ValueObject;
+use Cnastasi\DDD\Error\UnsupportedCollectionItem;
 
 /**
  * Class EntityCollection
@@ -31,7 +31,8 @@ abstract class EntityCollection implements Collection
     public function addItem(ValueObject $item): void
     {
         if (! $item instanceof Entity || ! $this->typeIsSupported($item)) {
-            throw new UnsupportedCollectionItem(\get_class($item), $this->getItemType());
+            $message = sprintf('Unsupported item class %s, %s supported.', \get_class($item), $this->getItemType());
+            throw new UnsupportedCollectionItem($message);
         }
 
         $this->collection[$item->getId()->value()] = $item;

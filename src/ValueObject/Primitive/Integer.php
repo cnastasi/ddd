@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Payment\Core\Model;
+namespace Cnastasi\DDD\ValueObject\Primitive;
 
-use Cnastasi\Serializer\Contract\SimpleValueObject;
-use Payment\Core\Exception\IntegerTooBig;
-use Payment\Core\Exception\IntegerTooSmall;
-use Payment\Core\Exception\InvalidDataType;
+use Cnastasi\DDD\Contract\SimpleValueObject;
+use Cnastasi\DDD\Error\IntegerTooBig;
+use Cnastasi\DDD\Error\IntegerTooSmall;
+use Cnastasi\DDD\Error\InvalidDataType;
 use const PHP_INT_MAX;
 use const PHP_INT_MIN;
 

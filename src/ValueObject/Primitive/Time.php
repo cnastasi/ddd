@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Cnastasi\DDD\ValueObject;
+namespace Cnastasi\DDD\ValueObject\Primitive;
 
-use Carbon\CarbonImmutable;
-use Carbon\Exceptions\InvalidFormatException;
-use Cnastasi\Serializer\Contract\SimpleValueObject;
+use Cnastasi\DDD\Contract\SimpleValueObject;
+use Cnastasi\DDD\Error\InvalidTime;
+use Cnastasi\DDD\ValueObject\CarbonImmutable;
+use Cnastasi\DDD\ValueObject\InvalidFormatException;
 use DateTimeInterface;
-use Payment\Core\Exception\InvalidTime;
 
 final class Time implements SimpleValueObject
 {
