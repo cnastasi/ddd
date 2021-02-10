@@ -27,4 +27,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run test suite
-        run: composer test
+        run: composer run test
