@@ -11,5 +11,4 @@ namespace Cnastasi\DDD\Contract;
  */
 interface CompositeValueObject extends ValueObject
 {
-
 }

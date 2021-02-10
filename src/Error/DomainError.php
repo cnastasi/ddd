@@ -6,5 +6,4 @@ namespace Cnastasi\DDD\Error;
 
 abstract class DomainError extends \DomainException
 {
-
 }

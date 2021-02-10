@@ -6,5 +6,4 @@ namespace Cnastasi\DDD\Contract;
 
 interface ValueObject
 {
-
 }
