@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cnastasi\DDD\Error;
+namespace CNastasi\DDD\Error;
 
 class IntegerTooSmall extends ValueError
 {

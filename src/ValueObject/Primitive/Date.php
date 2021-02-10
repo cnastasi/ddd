@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Cnastasi\DDD\ValueObject\Primitive;
+namespace CNastasi\DDD\ValueObject\Primitive;
 
-use Cnastasi\DDD\Contract\CompositeValueObject;
-use Cnastasi\DDD\Contract\Serializable;
-use Cnastasi\DDD\Error\InvalidDate;
+use CNastasi\DDD\Contract\CompositeValueObject;
+use CNastasi\DDD\Contract\Serializable;
+use CNastasi\DDD\Error\InvalidDate;
 use DateTimeImmutable;
 use DateTimeInterface;
 
@@ -59,21 +59,35 @@ final class Date implements CompositeValueObject, Serializable
 
     public function toDateTimeInterface(): DateTimeInterface
     {
-        return DateTimeImmutable::createFromFormat(DateTimeImmutable::RFC3339, $this->__toString() . 'T00:00:00');
+        $dateAsString = $this->__toString() . 'T00:00:00';
+
+        $result = DateTimeImmutable::createFromFormat(DateTimeImmutable::RFC3339, $dateAsString);
+
+        if ($result === false) {
+            throw new InvalidDate($dateAsString);
+        }
+
+        return $result;
     }
 
-    public static function fromDateTimeInterface(DateTimeInterface $date): Date
+    public static function fromDateTimeInterface(DateTimeInterface $date): self
     {
         $days = (int)$date->format('d');
         $months = (int)$date->format('m');
         $years = (int)$date->format('Y');
 
-        return new Date($days, $months, $years);
+        return new static($days, $months, $years);
     }
 
-    public static function fromString(string $date, string $format = DateTimeInterface::RFC3339): Date
+    public static function fromString(string $dateAsString, string $format = DateTimeInterface::RFC3339): Date
     {
-        return static::fromDateTimeInterface(DateTimeImmutable::createFromFormat($format, $date));
+        $date = DateTimeImmutable::createFromFormat($format, $dateAsString);
+
+        if ($date === false) {
+            throw new InvalidDate($dateAsString);
+        }
+
+        return static::fromDateTimeInterface($date);
     }
 
     private function assertDateIsValid(int $days, int $months, int $years): void

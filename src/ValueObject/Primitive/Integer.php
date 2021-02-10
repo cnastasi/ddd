@@ -2,22 +2,26 @@
 
 declare(strict_types=1);
 
-namespace Cnastasi\DDD\ValueObject\Primitive;
+namespace CNastasi\DDD\ValueObject\Primitive;
 
-use Cnastasi\DDD\Contract\SimpleValueObject;
-use Cnastasi\DDD\Error\IntegerTooBig;
-use Cnastasi\DDD\Error\IntegerTooSmall;
-use Cnastasi\DDD\Error\InvalidDataType;
-use const PHP_INT_MAX;
-use const PHP_INT_MIN;
+use CNastasi\DDD\Contract\SimpleValueObject;
+use CNastasi\DDD\Error\IntegerTooBig;
+use CNastasi\DDD\Error\IntegerTooSmall;
+use CNastasi\DDD\Error\InvalidInteger;
 
+/**
+ * Class Integer
+ * @package CNastasi\DDD\ValueObject\Primitive
+ *
+ * @implements SimpleValueObject<int>
+ */
 abstract class Integer implements SimpleValueObject
 {
     private int $value;
 
-    protected int $min = PHP_INT_MIN;
+    protected int $min = \PHP_INT_MIN;
 
-    protected int $max = PHP_INT_MAX;
+    protected int $max = \PHP_INT_MAX;
 
     final public function __construct($value)
     {
@@ -39,7 +43,7 @@ abstract class Integer implements SimpleValueObject
         $castedValue = (int) $value;
 
         if (((string) $castedValue) !== (string) $value) {
-            throw new InvalidDataType("The value '{$value}' should be an integer");
+            throw new InvalidInteger($value);
         }
 
         if ($castedValue < $this->min) {

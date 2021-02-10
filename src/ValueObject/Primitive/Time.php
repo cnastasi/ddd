@@ -2,15 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Cnastasi\DDD\ValueObject\Primitive;
+namespace CNastasi\DDD\ValueObject\Primitive;
 
-use Cnastasi\DDD\Contract\SimpleValueObject;
-use Cnastasi\DDD\Error\InvalidFormat;
-use Cnastasi\DDD\Error\InvalidTime;
+use CNastasi\DDD\Contract\CompositeValueObject;
+use CNastasi\DDD\Contract\Serializable;
+use CNastasi\DDD\Error\InvalidDate;
+use CNastasi\DDD\Error\InvalidFormat;
+use CNastasi\DDD\Error\InvalidTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 
-final class Time implements SimpleValueObject
+final class Time implements CompositeValueObject, Serializable
 {
     private const TIME_FORMAT = 'H:i:s';
 
@@ -20,20 +22,23 @@ final class Time implements SimpleValueObject
 
     private int $seconds;
 
-    public function __construct($value)
+    public function __construct(int $hours, int $minutes, int $seconds)
     {
-        $time = ($value instanceof DateTimeInterface)
-            ? $this->convertOrFail($value)
-            : $this->parseOrFail((string) $value);
+        $this->assertDateIsValid($hours, $minutes, $seconds);
 
-        $this->hours = (int) $time->format('H');
-        $this->minutes = (int) $time->format('i');
-        $this->seconds = (int) $time->format('s');
+        $this->hours = $hours;
+        $this->minutes = $minutes;
+        $this->seconds = $seconds;
     }
 
     public static function now(): Time
     {
-        return new Time(new DateTimeImmutable());
+        return Time::fromDateTimeInterface(new DateTimeImmutable());
+    }
+
+    private static function toString(int $hours, int $minutes, int $seconds):string
+    {
+        return \sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     }
 
     public function getHours(): int
@@ -51,41 +56,42 @@ final class Time implements SimpleValueObject
         return $this->seconds;
     }
 
-    public function value(): string
-    {
-        return \sprintf('%02d:%02d:%02d', $this->hours, $this->minutes, $this->seconds);
-    }
-
     public function __toString(): string
     {
-        return $this->value();
+        return static::toString($this->hours, $this->minutes, $this->seconds);
     }
 
-    private function parseOrFail(string $value): DateTimeImmutable
+    public static function fromDateTimeInterface(DateTimeInterface $date): self
     {
-        $time = null;
+        $hours = (int)$date->format('H');
+        $minutes = (int)$date->format('i');
+        $seconds = (int)$date->format('s');
 
-        try {
-            $time = DateTimeImmutable::createFromFormat(self::TIME_FORMAT, $value);
-        } catch (InvalidFormat $exception) {
-            throw new InvalidTime($value);
-        }
-
-        if ($time->format(self::TIME_FORMAT) !== $value) {
-            throw new InvalidTime($value);
-        }
-
-        return $time;
+        return new static($hours, $minutes, $seconds);
     }
 
-    protected function convertOrFail(DateTimeInterface $value): DateTimeImmutable
+    public static function fromString(string $time): Time
     {
-        try {
-            return $value instanceof DateTimeImmutable
-                ? $value
-                : DateTimeImmutable::createFromFormat(self::TIME_FORMAT, $value);
-        } catch (\Exception $e) {
-            throw new InvalidTime($value->format(self::TIME_FORMAT));
+        if (!preg_match('/^([0-1]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/', $time, $matches)) {
+            throw new InvalidTime($time);
         }
+
+        [, $hours, $minutes, $seconds] = $matches;
+
+        return new Time((int)$hours, (int)$minutes, (int)$seconds);
+    }
+
+    private function assertDateIsValid(int $hours, int $minutes, int $seconds): void
+    {
+        if (($hours < 0 || $hours > 23) || ($minutes < 0 || $minutes > 59) || ($seconds < 0 || $seconds > 59)) {
+            $timeAsString = static::toString($hours, $minutes, $seconds);
+
+            throw new InvalidTime($timeAsString);
+        }
+    }
+
+    public function serialize()
+    {
+        return $this->__toString();
     }
 }

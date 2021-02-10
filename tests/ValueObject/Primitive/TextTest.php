@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Cnastasi\DDD\ValueObject\Primitive;
+namespace CNastasi\DDD\ValueObject\Primitive;
 
-use Cnastasi\DDD\Error\InvalidString;
+use CNastasi\DDD\Error\InvalidString;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class TextTest
- * @covers \Cnastasi\DDD\ValueObject\Primitive\Text
- * @package Cnastasi\DDD\ValueObject\Primitive
+ * @covers \CNastasi\DDD\ValueObject\Primitive\Text
+ * @package CNastasi\DDD\ValueObject\Primitive
  */
 class TextTest extends TestCase
 {

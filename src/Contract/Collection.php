@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cnastasi\DDD\Contract;
+namespace CNastasi\DDD\Contract;
 
 use IteratorAggregate;
 

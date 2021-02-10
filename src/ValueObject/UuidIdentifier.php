@@ -2,21 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Cnastasi\DDD\ValueObject;
+namespace CNastasi\DDD\ValueObject;
 
-use Cnastasi\DDD\Contract\SimpleValueObject;
-use Cnastasi\DDD\Error\InvalidIdFormat;
+use CNastasi\DDD\Contract\CompositeValueObject;
+use CNastasi\DDD\Contract\Identifier;
+use CNastasi\DDD\Error\InvalidUuid;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
-abstract class Id implements SimpleValueObject
+class UuidIdentifier implements CompositeValueObject, Identifier
 {
     private UuidInterface $value;
 
-    final public function __construct($value)
+    final public function __construct(UuidInterface $value)
     {
-        $this->assertIsUuid($value);
-
         $this->value = $value;
     }
 
@@ -32,14 +31,14 @@ abstract class Id implements SimpleValueObject
      */
     final public static function fromString(string $value): self
     {
-        if (! Uuid::isValid($value)) {
-            throw new InvalidIdFormat($value);
+        if (!Uuid::isValid($value)) {
+            throw new InvalidUuid($value);
         }
 
         return new static(Uuid::fromString($value));
     }
 
-    final public function equalsTo(Id $id): bool
+    final public function equalsTo(UuidIdentifier $id): bool
     {
         return $id instanceof static
             && $id->value->equals($this->value);
@@ -53,23 +52,8 @@ abstract class Id implements SimpleValueObject
         return new static(Uuid::uuid4());
     }
 
-    public function value(): string
-    {
-        return $this->value->toString();
-    }
-
     public function toUuid(): UuidInterface
     {
         return $this->value;
-    }
-
-    /**
-     * @param UuidInterface|mixed $value
-     */
-    private function assertIsUuid($value): void
-    {
-        if (! ($value instanceof UuidInterface)) {
-            throw new InvalidIdFormat($value);
-        }
     }
 }
