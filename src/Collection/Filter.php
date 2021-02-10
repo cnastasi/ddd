@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cnastasi\DDD\ValueObject;
+namespace CNastasi\DDD\Collection;
 
 class Filter
 {

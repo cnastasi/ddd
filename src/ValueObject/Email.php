@@ -2,26 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Cnastasi\DDD\ValueObject;
+namespace CNastasi\DDD\ValueObject;
 
-use Cnastasi\Serializer\Contract\SimpleValueObject;
+use CNastasi\DDD\ValueObject\Primitive\Text;
 
-final class Email implements SimpleValueObject
+class Email extends Text
 {
-    private string $value;
-
-    public function __construct($value)
-    {
-        $this->value = $value;
-    }
-
-    public function __toString(): string
-    {
-        return $this->value;
-    }
-
-    public function value()
-    {
-        return $this->value;
-    }
+    // TODO: Mettere validation per email
 }

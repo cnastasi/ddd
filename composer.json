@@ -19,18 +19,18 @@
   },
   "autoload": {
     "psr-4": {
-      "Cnastasi\\DDD\\": "src/"
+      "CNastasi\\DDD\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Cnastasi\\DDD\\": "tests/"
+      "CNastasi\\DDD\\": "tests/"
     }
   },
   "scripts": {
     "test": "phpunit",
     "test-with-coverage": "phpunit --coverage-clover clover.xml ",
-    "phpstan": "phpstan analyze src tests",
+    "phpstan": "phpstan analyze -l7 src tests",
     "cs-check": "php-cs-fixer fix --dry-run --diff src/",
     "cs-fix": "php-cs-fixer fix --diff src/"
   }

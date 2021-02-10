@@ -2,11 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Cnastasi\DDD\ValueObject\Primitive;
+namespace CNastasi\DDD\ValueObject\Primitive;
 
-use Cnastasi\DDD\Contract\SimpleValueObject;
-use Cnastasi\DDD\Error\InvalidString;
+use CNastasi\DDD\Contract\SimpleValueObject;
+use CNastasi\DDD\Error\InvalidString;
 
+/**
+ * Class Text
+ * @package CNastasi\DDD\ValueObject\Primitive
+ *
+ * @implements SimpleValueObject<string>
+ */
 class Text implements SimpleValueObject
 {
     private string $value;
@@ -23,6 +29,11 @@ class Text implements SimpleValueObject
         return $this->value;
     }
 
+    /**
+     * @param mixed $value
+     *
+     * @return string
+     */
     protected function validate($value): string
     {
         $castedValue = (string) $value;

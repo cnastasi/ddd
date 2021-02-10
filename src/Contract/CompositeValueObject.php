@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Cnastasi\DDD\Contract;
+namespace CNastasi\DDD\Contract;
 
 /**
  * Interface CompositeValueObject
  *
- * @package Cnastasi\Serializer\ValueObject
+ * @package CNastasi\Serializer\ValueObject
  */
 interface CompositeValueObject extends ValueObject
 {

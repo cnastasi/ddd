@@ -2,21 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Cnastasi\DDD\ValueObject;
+namespace CNastasi\DDD\Collection;
 
 use ArrayObject;
-use Cnastasi\DDD\Contract\Collection;
-use Cnastasi\DDD\Contract\ValueObject;
-use Cnastasi\DDD\Error\UnsupportedCollectionItem;
+use CNastasi\DDD\Contract\Collection;
+use CNastasi\DDD\Contract\Entity;
+use CNastasi\DDD\Contract\ValueObject;
+use CNastasi\DDD\Error\UnsupportedCollectionItem;
+use CNastasi\DDD\ValueObject\AbstractEntity;
 
 /**
  * Class EntityCollection
  *
- * @template T of Entity
+ * @template T of AbstractEntity
  * @implements Collection<T>
  */
 abstract class EntityCollection implements Collection
 {
+    /** @var array<string, T> */
     private array $collection = [];
 
     final public function __construct()
@@ -30,17 +33,17 @@ abstract class EntityCollection implements Collection
      */
     public function addItem(ValueObject $item): void
     {
-        if (! $item instanceof Entity || ! $this->typeIsSupported($item)) {
+        if (!$item instanceof AbstractEntity || !$this->typeIsSupported($item)) {
             throw new UnsupportedCollectionItem(\get_class($item), $this->getItemType());
         }
 
-        $this->collection[$item->getId()->value()] = $item;
+        $this->collection[(string)$item->getId()] = $item;
     }
 
     /**
-     * @phpstan-return ArrayObject<T>
+     * @phpstan-return ArrayObject<string, T>
      *
-     * @return ArrayObject<Entity>
+     * @return ArrayObject<string, AbstractEntity>
      */
     public function getIterator(): ArrayObject
     {
@@ -52,10 +55,15 @@ abstract class EntityCollection implements Collection
         return \count($this->collection);
     }
 
+    /**
+     * @param Entity $item
+     *
+     * @return bool
+     */
     public function has($item): bool
     {
         if ($this->typeIsSupported($item)) {
-            $key = $item->getId()->value();
+            $key = (string)$item->getId();
 
             return isset($this->collection[$key]);
         }
@@ -66,20 +74,32 @@ abstract class EntityCollection implements Collection
     /**
      * @phpstan-return T | null
      *
-     * @return Entity|null
+     * @return AbstractEntity|null
      */
-    public function first(): ?Entity
+    public function first(): ?AbstractEntity
     {
-        return \reset($this->collection);
+        $first = \reset($this->collection);
+
+        return $first === false ? null : $first;
     }
 
+    /**
+     * @param Pagination $pagination
+     *
+     * @return static<AbstractEntity>
+     */
     public function paginate(Pagination $pagination): self
     {
         $array = \array_slice(\array_values($this->collection), $pagination->getOffset(), $pagination->getLimit());
 
-        return self::fromArray($array);
+        return static::fromArray($array);
     }
 
+    /**
+     * @param array<T> $array
+     *
+     * @return EntityCollection<T>
+     */
     public static function fromArray(array $array): self
     {
         $collection = new static();
@@ -91,6 +111,10 @@ abstract class EntityCollection implements Collection
         return $collection;
     }
 
+    /**
+     * @param Entity $entity
+     * @return bool
+     */
     private function typeIsSupported($entity): bool
     {
         return \is_a($entity, $this->getItemType(), true);

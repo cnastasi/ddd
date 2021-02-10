@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Cnastasi\DDD\ValueObject\Primitive;
+namespace CNastasi\DDD\ValueObject\Primitive;
 
 use PHPUnit\Framework\TestCase;
 
 class DateTest extends TestCase
 {
     /**
-     * @covers \Cnastasi\DDD\ValueObject\Primitive\Date::__construct
+     * @covers \CNastasi\DDD\ValueObject\Primitive\Date::__construct
      */
     public function test_constructor(): void
     {
@@ -25,7 +25,7 @@ class DateTest extends TestCase
     }
 
     /**
-     * @covers \Cnastasi\DDD\ValueObject\Primitive\Date::now
+     * @covers \CNastasi\DDD\ValueObject\Primitive\Date::now
      */
     public function test_now(): void
     {

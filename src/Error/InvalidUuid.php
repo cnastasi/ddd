@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Cnastasi\DDD\Error;
+namespace CNastasi\DDD\Error;
 
-class InvalidIdFormat extends ValueError
+class InvalidUuid extends ValueError
 {
     public function __construct(string $id)
     {

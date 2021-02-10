@@ -2,17 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Cnastasi\DDD\ValueObject\Primitive;
+namespace CNastasi\DDD\ValueObject\Primitive;
 
-use Cnastasi\DDD\Contract\CompositeValueObject;
-use Cnastasi\DDD\ValueObject\Primitive\Date;
-use Cnastasi\DDD\ValueObject\InvalidDate;
-use Cnastasi\DDD\ValueObject\InvalidDateTime;
-use Cnastasi\DDD\ValueObject\InvalidTime;
-use Cnastasi\DDD\ValueObject\Primitive\Time;
+use CNastasi\DDD\Contract\CompositeValueObject;
+use CNastasi\DDD\Error\InvalidDate;
+use CNastasi\DDD\Error\InvalidDateTime;
+use CNastasi\DDD\Error\InvalidTime;
+use DateTimeImmutable;
 
 final class DateTime implements CompositeValueObject
 {
+    public const SIMPLE = 'Y-m-d H:i:s';
+    public const RFC3339 = \DateTimeInterface::RFC3339;
     private const DATE_TIME_FORMAT = '/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/';
 
     private Date $date;
@@ -53,26 +54,19 @@ final class DateTime implements CompositeValueObject
     public static function fromDateTimeInterface(\DateTimeInterface $dateTime): DateTime
     {
         $date = Date::fromDateTimeInterface($dateTime);
-        $time = new Time($dateTime);
+        $time = Time::fromDateTimeInterface($dateTime);
 
         return new DateTime($date, $time);
     }
 
-    public static function fromString(string $dateTimeString): DateTime
+    public static function fromString(string $dateTimeString, string $format = self::SIMPLE): DateTime
     {
-        if (! \preg_match(self::DATE_TIME_FORMAT, $dateTimeString)) {
+        $dateTime = DateTimeImmutable::createFromFormat($format, $dateTimeString);
+
+        if ($dateTime === false) {
             throw new InvalidDateTime($dateTimeString);
         }
 
-        $parts = \explode(' ', $dateTimeString);
-
-        try {
-            return new DateTime(
-                Date::fromString($parts[0]),
-                new Time($parts[1])
-            );
-        } catch (InvalidDate | InvalidTime $exception) {
-            throw new InvalidDateTime($dateTimeString);
-        }
+        return static::fromDateTimeInterface($dateTime);
     }
 }
