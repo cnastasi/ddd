@@ -6,5 +6,8 @@ namespace Cnastasi\DDD\Error;
 
 class UnsupportedCollectionItem extends TypeError
 {
-
+    public function __construct(string $unsupportedClass, $supportedClass)
+    {
+        parent::__construct("Unsupported item class $unsupportedClass, $supportedClass supported");
+    }
 }

@@ -31,8 +31,7 @@ abstract class EntityCollection implements Collection
     public function addItem(ValueObject $item): void
     {
         if (! $item instanceof Entity || ! $this->typeIsSupported($item)) {
-            $message = sprintf('Unsupported item class %s, %s supported.', \get_class($item), $this->getItemType());
-            throw new UnsupportedCollectionItem($message);
+            throw new UnsupportedCollectionItem(\get_class($item), $this->getItemType());
         }
 
         $this->collection[$item->getId()->value()] = $item;
