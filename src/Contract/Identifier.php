@@ -6,5 +6,4 @@ namespace CNastasi\DDD\Contract;
 
 interface Identifier extends ValueObject, Stringable
 {
-
 }

@@ -9,7 +9,6 @@ use CNastasi\DDD\Error\IntegerTooBig;
 use CNastasi\DDD\Error\IntegerTooSmall;
 use CNastasi\DDD\Error\InvalidInteger;
 
-
 /**
  * Class Integer
  * @package CNastasi\DDD\ValueObject\Primitive

@@ -36,7 +36,8 @@ final class Time implements CompositeValueObject, Serializable
         return Time::fromDateTimeInterface(new DateTimeImmutable());
     }
 
-    private static function toString(int $hours, int $minutes, int $seconds):string {
+    private static function toString(int $hours, int $minutes, int $seconds):string
+    {
         return \sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     }
 
@@ -77,7 +78,7 @@ final class Time implements CompositeValueObject, Serializable
 
         [, $hours, $minutes, $seconds] = $matches;
 
-        return new Time ((int)$hours, (int)$minutes, (int)$seconds);
+        return new Time((int)$hours, (int)$minutes, (int)$seconds);
     }
 
     private function assertDateIsValid(int $hours, int $minutes, int $seconds): void
