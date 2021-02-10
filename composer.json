@@ -1,0 +1,28 @@
+{
+  "name": "cnastasi/ddd",
+  "description": "A base for a DDD approach",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Christian Nastasi",
+      "email": "christian.nastasi@gmail.com"
+    }
+  ],
+  "require": {
+    "ramsey/uuid": "^4.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Cnastasi\\DDD\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Cnastasi\\DDD\\": "tests/"
+    }
+  }
+}
