@@ -25,6 +25,6 @@ jobs:
     - name: Run test suite
       run: composer run test
     - name: Run cs-fix
-      run: composer run test
+      run: composer run cs-fix
     - name: Run phpstan
-      run: composer run test
+      run: composer run phpstan
