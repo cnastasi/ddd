@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace CNastasi\DDD\ValueObject\Primitive;
 
 use CNastasi\DDD\Contract\CompositeValueObject;
-use CNastasi\DDD\Error\InvalidDate;
+use CNastasi\DDD\Contract\Serializable;
+use CNastasi\DDD\Contract\Stringable;
 use CNastasi\DDD\Error\InvalidDateTime;
-use CNastasi\DDD\Error\InvalidTime;
 use DateTimeImmutable;
 
-final class DateTime implements CompositeValueObject
+final class DateTime implements CompositeValueObject, Serializable, Stringable
 {
     public const SIMPLE = 'Y-m-d H:i:s';
     public const RFC3339 = \DateTimeInterface::RFC3339;
@@ -41,14 +41,9 @@ final class DateTime implements CompositeValueObject
         return new DateTime(Date::now(), Time::now());
     }
 
-    private static function format(Date $date, Time $time): string
-    {
-        return "{$date} {$time}";
-    }
-
     public function __toString(): string
     {
-        return self::format($this->date, $this->time);
+        return "{$this->date} {$this->time}";
     }
 
     public static function fromDateTimeInterface(\DateTimeInterface $dateTime): DateTime
@@ -68,5 +63,10 @@ final class DateTime implements CompositeValueObject
         }
 
         return static::fromDateTimeInterface($dateTime);
+    }
+
+    public function serialize()
+    {
+        return $this->__toString();
     }
 }

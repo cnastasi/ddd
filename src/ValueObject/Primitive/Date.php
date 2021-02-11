@@ -6,11 +6,12 @@ namespace CNastasi\DDD\ValueObject\Primitive;
 
 use CNastasi\DDD\Contract\CompositeValueObject;
 use CNastasi\DDD\Contract\Serializable;
+use CNastasi\DDD\Contract\Stringable;
 use CNastasi\DDD\Error\InvalidDate;
 use DateTimeImmutable;
 use DateTimeInterface;
 
-final class Date implements CompositeValueObject, Serializable
+final class Date implements CompositeValueObject, Serializable, Stringable
 {
     private int $days;
 

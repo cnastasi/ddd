@@ -6,13 +6,12 @@ namespace CNastasi\DDD\ValueObject\Primitive;
 
 use CNastasi\DDD\Contract\CompositeValueObject;
 use CNastasi\DDD\Contract\Serializable;
-use CNastasi\DDD\Error\InvalidDate;
-use CNastasi\DDD\Error\InvalidFormat;
+use CNastasi\DDD\Contract\Stringable;
 use CNastasi\DDD\Error\InvalidTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 
-final class Time implements CompositeValueObject, Serializable
+final class Time implements CompositeValueObject, Serializable, Stringable
 {
     private const TIME_FORMAT = 'H:i:s';
 
