@@ -8,7 +8,7 @@ use CNastasi\DDD\ValueObject\Primitive\DateTime;
 
 interface Entity extends CompositeValueObject
 {
-    public function getId():Identifier;
+    public function getId(): Identifier;
 
     public function getCreatedAt(): DateTime;
 }
