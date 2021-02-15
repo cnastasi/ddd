@@ -29,4 +29,11 @@ abstract class AbstractEntity implements Entity
     {
         return $this->createdAt;
     }
+
+    /**
+     * @return static
+     */
+    public static function make(Identifier $id):self {
+        return new static ($id, DateTime::now());
+    }
 }
