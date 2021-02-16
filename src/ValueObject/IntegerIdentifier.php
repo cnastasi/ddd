@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace CNastasi\DDD\ValueObject;
 
 use CNastasi\DDD\Contract\Identifier;
+use CNastasi\DDD\Error\DomainError;
+use CNastasi\DDD\Error\InvalidIdentifier;
 use CNastasi\DDD\ValueObject\Primitive\Integer;
 
 class IntegerIdentifier extends Integer implements Identifier
@@ -20,5 +22,14 @@ class IntegerIdentifier extends Integer implements Identifier
     final public function __toString(): string
     {
         return (string) $this->value();
+    }
+
+    protected function validate($value): int
+    {
+        try {
+            return parent::validate($value);
+        } catch (DomainError $ex) {
+            throw new InvalidIdentifier($value);
+        }
     }
 }

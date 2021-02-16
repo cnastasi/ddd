@@ -6,6 +6,7 @@ namespace CNastasi\DDD\ValueObject;
 
 use CNastasi\DDD\Contract\CompositeValueObject;
 use CNastasi\DDD\Contract\Identifier;
+use CNastasi\DDD\Error\InvalidIdentifier;
 use CNastasi\DDD\Error\InvalidUuid;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -32,7 +33,7 @@ class UuidIdentifier implements CompositeValueObject, Identifier
     final public static function fromString(string $value): self
     {
         if (!Uuid::isValid($value)) {
-            throw new InvalidUuid($value);
+            throw new InvalidIdentifier($value);
         }
 
         return new static(Uuid::fromString($value));
