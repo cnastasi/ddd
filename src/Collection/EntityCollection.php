@@ -122,7 +122,7 @@ abstract class EntityCollection implements Collection
         return \is_a($entity, $this->getItemType(), true);
     }
 
-    public function getTotal(): ?int
+    public function getTotal(): int
     {
         return $this->total ?? $this->count();
     }
