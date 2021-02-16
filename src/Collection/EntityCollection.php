@@ -22,6 +22,8 @@ abstract class EntityCollection implements Collection
     /** @var array<string, T> */
     private array $collection = [];
 
+    private ?int $total = null;
+
     final public function __construct()
     {
     }
@@ -119,4 +121,15 @@ abstract class EntityCollection implements Collection
     {
         return \is_a($entity, $this->getItemType(), true);
     }
+
+    public function getTotal(): ?int
+    {
+        return $this->total ?? $this->count();
+    }
+
+    public function setTotal(?int $total): void
+    {
+        $this->total = $total;
+    }
+
 }
