@@ -21,7 +21,7 @@ interface Collection extends IteratorAggregate
     public function addItem(ValueObject $item): void;
 
     /**
-     * @param ValueObject $item
+     * @param T $item
      *
      * @return bool
      */
@@ -66,7 +66,7 @@ interface Collection extends IteratorAggregate
     public function walk(Closure $filterFunction): void;
 
     /**
-     * @param array $array
+     * @param list<ValueObject> $array
      *
      * @return static
      */

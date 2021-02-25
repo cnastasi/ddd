@@ -20,7 +20,7 @@ use Traversable;
 abstract class AbstractCollection implements Collection
 {
     /**
-     * @property ArrayObject<K, T>
+     * @property ArrayObject<T>
      */
     protected ArrayObject $collection;
 
@@ -86,10 +86,13 @@ abstract class AbstractCollection implements Collection
     }
 
     /**
-     * @inheritdoc
+     * @param T $item
+     *
+     * @return bool
      */
     public function has(ValueObject $item): bool
     {
+        /** @var T $element */
         foreach ($this->collection as $element) {
             if ($element->equalsTo($item)) {
                 return true;
@@ -105,7 +108,7 @@ abstract class AbstractCollection implements Collection
     }
 
     /**
-     * @param array $array
+     * @param list<ValueObject> $array
      *
      * @return static
      */
@@ -120,15 +123,27 @@ abstract class AbstractCollection implements Collection
         return $collection;
     }
 
+    /**
+     * @return ?T
+     */
     public function first(): ?ValueObject
     {
+        /** @var T|false $first */
         $first = \reset($this->collection);
 
         return $first === false ? null : $first;
     }
 
+    /**
+     * @param K $key
+     *
+     * @return ?T
+     */
     public function get($key): ?ValueObject
     {
-        return $this->collection->offsetGet($key);
+        /** @var T|null $item */
+        $item = $this->collection->offsetGet($key);
+
+        return $item;
     }
 }
