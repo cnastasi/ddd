@@ -4,14 +4,24 @@ declare(strict_types=1);
 
 namespace CNastasi\DDD\ValueObject\Primitive;
 
+use CNastasi\DDD\Contract\ComparableNumber;
 use CNastasi\DDD\Contract\CompositeValueObject;
 use CNastasi\DDD\Contract\Serializable;
 use CNastasi\DDD\Contract\Stringable;
 use CNastasi\DDD\Error\InvalidDateTime;
+use CNastasi\DDD\ValueObject\ComparableNumberTrait;
 use DateTimeImmutable;
 
-final class DateTime implements CompositeValueObject, Serializable, Stringable
+/**
+ * Class DateTime
+ * @package CNastasi\DDD\ValueObject\Primitive
+ *
+ * @psalm-immutable
+ */
+final class DateTime implements CompositeValueObject, Serializable, Stringable, ComparableNumber
 {
+    use ComparableNumberTrait;
+
     public const SIMPLE = 'Y-m-d H:i:s';
     public const RFC3339 = \DateTimeInterface::RFC3339;
     private const DATE_TIME_FORMAT = '/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/';
@@ -62,11 +72,16 @@ final class DateTime implements CompositeValueObject, Serializable, Stringable
             throw new InvalidDateTime($dateTimeString);
         }
 
-        return static::fromDateTimeInterface($dateTime);
+        return DateTime::fromDateTimeInterface($dateTime);
     }
 
     public function serialize()
     {
         return $this->__toString();
+    }
+
+    public function toInt(): int
+    {
+        return $this->date->toInt() + $this->time->toInt();
     }
 }

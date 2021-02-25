@@ -9,15 +9,14 @@ use CNastasi\DDD\Error\DomainError;
 use CNastasi\DDD\Error\InvalidIdentifier;
 use CNastasi\DDD\ValueObject\Primitive\Integer;
 
+/**
+ * @implements Identifier<int>
+ *
+ * @psalm-immutable
+ */
 class IntegerIdentifier extends Integer implements Identifier
 {
     protected int $min = 1;
-
-    public function equalsTo(self $id): bool
-    {
-        return $id instanceof static
-            && $id->value() === $this->value();
-    }
 
     final public function __toString(): string
     {

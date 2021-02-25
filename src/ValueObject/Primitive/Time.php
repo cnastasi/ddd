@@ -4,15 +4,25 @@ declare(strict_types=1);
 
 namespace CNastasi\DDD\ValueObject\Primitive;
 
+use CNastasi\DDD\Contract\ComparableNumber;
 use CNastasi\DDD\Contract\CompositeValueObject;
 use CNastasi\DDD\Contract\Serializable;
 use CNastasi\DDD\Contract\Stringable;
 use CNastasi\DDD\Error\InvalidTime;
+use CNastasi\DDD\ValueObject\ComparableNumberTrait;
 use DateTimeImmutable;
 use DateTimeInterface;
 
-final class Time implements CompositeValueObject, Serializable, Stringable
+/**
+ * Class Time
+ * @package CNastasi\DDD\ValueObject\Primitive
+ *
+ * @psalm-immutable
+ */
+final class Time implements CompositeValueObject, Serializable, Stringable, ComparableNumber
 {
+    use ComparableNumberTrait;
+
     private const TIME_FORMAT = 'H:i:s';
 
     private int $hours;
@@ -35,7 +45,10 @@ final class Time implements CompositeValueObject, Serializable, Stringable
         return Time::fromDateTimeInterface(new DateTimeImmutable());
     }
 
-    private static function toString(int $hours, int $minutes, int $seconds):string
+    /**
+     * @psalm-pure
+     */
+    private static function toString(int $hours, int $minutes, int $seconds): string
     {
         return \sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     }
@@ -57,7 +70,7 @@ final class Time implements CompositeValueObject, Serializable, Stringable
 
     public function __toString(): string
     {
-        return static::toString($this->hours, $this->minutes, $this->seconds);
+        return Time::toString($this->hours, $this->minutes, $this->seconds);
     }
 
     public static function fromDateTimeInterface(DateTimeInterface $date): self
@@ -66,7 +79,7 @@ final class Time implements CompositeValueObject, Serializable, Stringable
         $minutes = (int)$date->format('i');
         $seconds = (int)$date->format('s');
 
-        return new static($hours, $minutes, $seconds);
+        return new Time($hours, $minutes, $seconds);
     }
 
     public static function fromString(string $time): Time
@@ -83,7 +96,7 @@ final class Time implements CompositeValueObject, Serializable, Stringable
     private function assertDateIsValid(int $hours, int $minutes, int $seconds): void
     {
         if (($hours < 0 || $hours > 23) || ($minutes < 0 || $minutes > 59) || ($seconds < 0 || $seconds > 59)) {
-            $timeAsString = static::toString($hours, $minutes, $seconds);
+            $timeAsString = Time::toString($hours, $minutes, $seconds);
 
             throw new InvalidTime($timeAsString);
         }
@@ -92,5 +105,10 @@ final class Time implements CompositeValueObject, Serializable, Stringable
     public function serialize()
     {
         return $this->__toString();
+    }
+
+    public function toInt(): int
+    {
+        return (int)sprintf('%02d%02d%02d', $this->hours, $this->minutes, $this->seconds);
     }
 }

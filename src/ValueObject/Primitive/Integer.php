@@ -4,19 +4,25 @@ declare(strict_types=1);
 
 namespace CNastasi\DDD\ValueObject\Primitive;
 
+use CNastasi\DDD\Contract\ComparableNumber;
 use CNastasi\DDD\Contract\SimpleValueObject;
 use CNastasi\DDD\Error\IntegerTooBig;
 use CNastasi\DDD\Error\IntegerTooSmall;
 use CNastasi\DDD\Error\InvalidInteger;
+use CNastasi\DDD\ValueObject\ComparableNumberTrait;
 
 /**
  * Class Integer
  * @package CNastasi\DDD\ValueObject\Primitive
  *
  * @implements SimpleValueObject<int>
+ *
+ * @psalm-immutable
  */
-abstract class Integer implements SimpleValueObject
+abstract class Integer implements SimpleValueObject, ComparableNumber
 {
+    use ComparableNumberTrait;
+
     private int $value;
 
     protected int $min = \PHP_INT_MIN;
@@ -43,7 +49,7 @@ abstract class Integer implements SimpleValueObject
         $castedValue = (int) $value;
 
         if (((string) $castedValue) !== (string) $value) {
-            throw new InvalidInteger($value);
+            throw new InvalidInteger((string)$value);
         }
 
         if ($castedValue < $this->min) {
@@ -55,5 +61,10 @@ abstract class Integer implements SimpleValueObject
         }
 
         return $castedValue;
+    }
+
+    public function toInt(): int
+    {
+        return $this->value;
     }
 }

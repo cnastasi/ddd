@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace CNastasi\DDD\Contract;
 
-interface ValueObject
+/**
+ * @psalm-immutable
+ * @immutable
+ */
+interface ValueObject extends Comparable
 {
 }
