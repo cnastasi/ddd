@@ -62,7 +62,8 @@ final class DateTime implements CompositeValueObject, Serializable, Stringable, 
         return new DateTime($date, $time);
     }
 
-    public function toDateTimeInterface(): \DateTimeInterface {
+    public function toDateTimeInterface(): \DateTimeInterface
+    {
         $dateTime = (string) $this;
 
         $result = \DateTimeImmutable::createFromFormat(self::SIMPLE, $dateTime);
@@ -74,7 +75,8 @@ final class DateTime implements CompositeValueObject, Serializable, Stringable, 
         return $result;
     }
 
-    public function format(string $format): string {
+    public function format(string $format): string
+    {
         /** @var DateTimeImmutable $dateTime */
         $dateTime = $this->toDateTimeInterface();
 
