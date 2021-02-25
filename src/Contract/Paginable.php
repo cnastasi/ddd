@@ -9,8 +9,6 @@ use CNastasi\DDD\Collection\Pagination;
 interface Paginable
 {
     /**
-     * @param Pagination $pagination
-     *
      * @return static
      */
     public function paginate(Pagination $pagination): self;

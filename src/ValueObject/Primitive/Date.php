@@ -14,9 +14,6 @@ use DateTimeImmutable;
 use DateTimeInterface;
 
 /**
- * Class Date
- * @package CNastasi\DDD\ValueObject\Primitive
- *
  * @psalm-immutable
  */
 final class Date implements CompositeValueObject, Serializable, Stringable, ComparableNumber

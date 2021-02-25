@@ -15,5 +15,5 @@ interface Comparable
      *
      * @throws IncomparableObjects
      */
-    public function equalsTo($item): bool;
+    public function equalsTo(Comparable $item): bool;
 }

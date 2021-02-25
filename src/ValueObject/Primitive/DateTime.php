@@ -13,9 +13,6 @@ use CNastasi\DDD\ValueObject\ComparableNumberTrait;
 use DateTimeImmutable;
 
 /**
- * Class DateTime
- * @package CNastasi\DDD\ValueObject\Primitive
- *
  * @psalm-immutable
  */
 final class DateTime implements CompositeValueObject, Serializable, Stringable, ComparableNumber

@@ -16,11 +16,11 @@ use CNastasi\DDD\Contract\Identifier;
  */
 abstract class AbstractEntity implements Entity
 {
-    /** @var K */
+    /** @psalm-var K */
     private Identifier $id;
 
     /**
-     * @param K $id
+     * @psalm-param K $id
      */
     public function __construct(Identifier $id)
     {
@@ -28,7 +28,7 @@ abstract class AbstractEntity implements Entity
     }
 
     /**
-     * @return K
+     * @psalm-return K
      */
     public function getId(): Identifier
     {

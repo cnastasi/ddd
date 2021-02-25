@@ -15,7 +15,7 @@ interface ComparableNumber extends Comparable
      *
      * @throws IncomparableObjects
      */
-    public function lessThan($item): bool;
+    public function lessThan(ComparableNumber $item): bool;
 
     /**
      * @param static $item
@@ -24,7 +24,7 @@ interface ComparableNumber extends Comparable
      *
      * @throws IncomparableObjects
      */
-    public function lessOrEqualsThan($item): bool;
+    public function lessOrEqualsThan(ComparableNumber $item): bool;
 
     /**
      * @param static $item
@@ -33,7 +33,7 @@ interface ComparableNumber extends Comparable
      *
      * @throws IncomparableObjects
      */
-    public function greaterThan($item): bool;
+    public function greaterThan(ComparableNumber $item): bool;
 
     /**
      * @param static $item
@@ -42,7 +42,7 @@ interface ComparableNumber extends Comparable
      *
      * @throws IncomparableObjects
      */
-    public function greaterOrEqualsThan($item): bool;
+    public function greaterOrEqualsThan(ComparableNumber $item): bool;
 
     public function toInt(): int;
 }

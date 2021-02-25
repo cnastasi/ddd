@@ -8,14 +8,10 @@ use CNastasi\DDD\Contract\CompositeValueObject;
 use CNastasi\DDD\Contract\Identifier;
 use CNastasi\DDD\Error\IncomparableObjects;
 use CNastasi\DDD\Error\InvalidIdentifier;
-use CNastasi\DDD\Error\InvalidUuid;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * Class UuidIdentifier
- * @package CNastasi\DDD\ValueObject
- *
  * @psalm-immutable
  *
  * @implements Identifier<UuidInterface>
@@ -65,7 +61,7 @@ class UuidIdentifier implements CompositeValueObject, Identifier
         return new static(Uuid::uuid4());
     }
 
-    public function toUuid(): UuidInterface
+    public function value():UuidInterface
     {
         return $this->value;
     }

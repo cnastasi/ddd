@@ -16,33 +16,29 @@ use IteratorAggregate;
 interface Collection extends IteratorAggregate
 {
     /**
-     * @param T $item
+     * @psalm-param T $item
      */
     public function addItem(ValueObject $item): void;
 
     /**
-     * @param T $item
-     *
-     * @return bool
+     * @psalm-param T $item
      */
     public function has(ValueObject $item): bool;
 
     /**
-     * @return ?T
+     * @psalm-return ?T
      */
     public function first(): ?ValueObject;
 
     /**
-     * @param K $key
+     * @psalm-param K $key
      *
-     * @return ?T
+     * @psalm-return ?T
      */
     public function get($key): ?ValueObject;
 
     /**
-     * @param K $key
-     *
-     * @return bool
+     * @psalm-param K $key
      */
     public function hasKey($key): bool;
 

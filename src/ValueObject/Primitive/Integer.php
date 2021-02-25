@@ -12,9 +12,6 @@ use CNastasi\DDD\Error\InvalidInteger;
 use CNastasi\DDD\ValueObject\ComparableNumberTrait;
 
 /**
- * Class Integer
- * @package CNastasi\DDD\ValueObject\Primitive
- *
  * @implements SimpleValueObject<int>
  *
  * @psalm-immutable

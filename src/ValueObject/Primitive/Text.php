@@ -9,9 +9,6 @@ use CNastasi\DDD\Error\IncomparableObjects;
 use CNastasi\DDD\Error\InvalidString;
 
 /**
- * Class Text
- * @package CNastasi\DDD\ValueObject\Primitive
- *
  * @psalm-immutable
  *
  * @implements SimpleValueObject<string>

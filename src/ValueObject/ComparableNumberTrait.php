@@ -4,26 +4,25 @@ declare(strict_types=1);
 
 namespace CNastasi\DDD\ValueObject;
 
+use CNastasi\DDD\Contract\Comparable;
+use CNastasi\DDD\Contract\ComparableNumber;
 use CNastasi\DDD\Error\IncomparableObjects;
 
 /**
- * Trait ComparableNumberTrait
- * @package CNastasi\DDD\ValueObject
- *
  * @psalm-immutable
+ *
+ * @implements ComparableNumber
  */
 trait ComparableNumberTrait
 {
     abstract public function toInt(): int;
 
     /**
-     * @param static $item
-     *
-     * @return bool|never-return
+     * @psalm-return bool|never-return
      *
      * @throws IncomparableObjects
      */
-    public function lessThan($item): bool
+    public function lessThan(ComparableNumber $item): bool
     {
         if ($item instanceof static) {
             return $this->toInt() < $item->toInt();
@@ -33,13 +32,11 @@ trait ComparableNumberTrait
     }
 
     /**
-     * @param static $item
-     *
-     * @return bool|never-return
+     * @psalm-return bool|never-return
      *
      * @throws IncomparableObjects
      */
-    public function lessOrEqualsThan($item): bool
+    public function lessOrEqualsThan(ComparableNumber $item): bool
     {
         if ($item instanceof static) {
             return $this->toInt() <= $item->toInt();
@@ -49,13 +46,11 @@ trait ComparableNumberTrait
     }
 
     /**
-     * @param static $item
-     *
-     * @return bool|never-return
+     * @psalm-return bool|never-return
      *
      * @throws IncomparableObjects
      */
-    public function greaterThan($item): bool
+    public function greaterThan(ComparableNumber $item): bool
     {
         if ($item instanceof static) {
             return $this->toInt() > $item->toInt();
@@ -65,13 +60,11 @@ trait ComparableNumberTrait
     }
 
     /**
-     * @param static $item
-     *
      * @return bool|never-return
      *
      * @throws IncomparableObjects
      */
-    public function greaterOrEqualsThan($item): bool
+    public function greaterOrEqualsThan(ComparableNumber $item): bool
     {
         if ($item instanceof static) {
             return $this->toInt() >= $item->toInt();
@@ -81,13 +74,11 @@ trait ComparableNumberTrait
     }
 
     /**
-     * @param static $item
-     *
-     * @return bool|never-return
+     * @psalm-return bool|never-return
      *
      * @throws IncomparableObjects
      */
-    public function equalsTo($item): bool
+    public function equalsTo(Comparable $item): bool
     {
         if ($item instanceof static) {
             return $this->toInt() === $item->toInt();

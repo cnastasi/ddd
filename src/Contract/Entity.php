@@ -10,7 +10,7 @@ namespace CNastasi\DDD\Contract;
 interface Entity extends CompositeValueObject
 {
     /**
-     * @return K
+     * @psalm-return K
      */
     public function getId(): Identifier;
 }
