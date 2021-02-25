@@ -12,7 +12,7 @@ use CNastasi\DDD\Error\UnsupportedCollectionItem;
 use Traversable;
 
 /**
- * @template K of int|string
+ * @template K
  * @template T of ValueObject
  *
  * @implements Collection<K, T>

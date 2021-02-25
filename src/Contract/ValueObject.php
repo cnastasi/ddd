@@ -6,7 +6,6 @@ namespace CNastasi\DDD\Contract;
 
 /**
  * @psalm-immutable
- * @immutable
  */
 interface ValueObject extends Comparable
 {

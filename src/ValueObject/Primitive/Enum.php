@@ -10,6 +10,7 @@ use CNastasi\DDD\Contract\SimpleValueObject;
  * @psalm-suppress MissingImmutableAnnotation
  *
  * @extends \MyCLabs\Enum\Enum<string>
+ * @implements SimpleValueObject<string>
  */
 abstract class Enum extends \MyCLabs\Enum\Enum implements SimpleValueObject
 {

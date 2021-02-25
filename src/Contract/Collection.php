@@ -5,21 +5,18 @@ declare(strict_types=1);
 namespace CNastasi\DDD\Contract;
 
 use Closure;
-use CNastasi\DDD\ValueObject\AbstractEntity;
 use IteratorAggregate;
 
 /**
- * @template K of int|string
+ * @template K
  * @template T of ValueObject
  *
- * @extends IteratorAggregate<T>
+ * @extends IteratorAggregate<K, T>
  */
 interface Collection extends IteratorAggregate
 {
     /**
-     * @phpstan-param T $item
-     *
-     * @param ValueObject $item
+     * @param T $item
      */
     public function addItem(ValueObject $item): void;
 
