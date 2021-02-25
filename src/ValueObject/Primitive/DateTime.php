@@ -11,6 +11,7 @@ use CNastasi\DDD\Contract\Stringable;
 use CNastasi\DDD\Error\InvalidDateTime;
 use CNastasi\DDD\ValueObject\ComparableNumberTrait;
 use DateTimeImmutable;
+use DateTimeInterface;
 
 /**
  * @psalm-immutable
@@ -59,6 +60,25 @@ final class DateTime implements CompositeValueObject, Serializable, Stringable, 
         $time = Time::fromDateTimeInterface($dateTime);
 
         return new DateTime($date, $time);
+    }
+
+    public function toDateTimeInterface(): \DateTimeInterface {
+        $dateTime = (string) $this;
+
+        $result = \DateTimeImmutable::createFromFormat(self::SIMPLE, $dateTime);
+
+        if ($result === false) {
+            throw new InvalidDateTime($dateTime);
+        }
+
+        return $result;
+    }
+
+    public function format(string $format): string {
+        /** @var DateTimeImmutable $dateTime */
+        $dateTime = $this->toDateTimeInterface();
+
+        return $dateTime->format($format);
     }
 
     public static function fromString(string $dateTimeString, string $format = self::SIMPLE): DateTime
