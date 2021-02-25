@@ -50,7 +50,7 @@ class UuidIdentifier implements CompositeValueObject, Identifier
 
     final public function equalsTo($id): bool
     {
-        if ($id instanceof static){
+        if ($id instanceof static) {
             return $id->value->equals($this->value);
         }
 

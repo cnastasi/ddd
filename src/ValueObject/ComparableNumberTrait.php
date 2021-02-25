@@ -87,7 +87,7 @@ trait ComparableNumberTrait
      *
      * @throws IncomparableObjects
      */
-    public function equalsTo ($item): bool
+    public function equalsTo($item): bool
     {
         if ($item instanceof static) {
             return $this->toInt() === $item->toInt();

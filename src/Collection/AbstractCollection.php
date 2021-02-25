@@ -9,6 +9,7 @@ use Closure;
 use CNastasi\DDD\Contract\Collection;
 use CNastasi\DDD\Contract\ValueObject;
 use CNastasi\DDD\Error\UnsupportedCollectionItem;
+use Traversable;
 
 /**
  * @template K of int|string
@@ -25,7 +26,7 @@ abstract class AbstractCollection implements Collection
 
     final public function __construct()
     {
-        $this->collection = new ArrayObject ();
+        $this->collection = new ArrayObject();
     }
 
     public function addItem(ValueObject $item): void
@@ -49,7 +50,7 @@ abstract class AbstractCollection implements Collection
 
     abstract public function getItemType(): string;
 
-    public function getIterator(): \iterable
+    public function getIterator(): Traversable
     {
         return $this->collection->getIterator();
     }

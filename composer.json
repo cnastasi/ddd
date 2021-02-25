@@ -11,11 +11,11 @@
   ],
   "require": {
     "ramsey/uuid": "^4.1",
-    "myclabs/php-enum": "^1.7",
-    "vimeo/psalm": "^4.6"
+    "myclabs/php-enum": "^1.7"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",
+    "vimeo/psalm": "^4.6",
     "phpstan/phpstan": "^0.12.74",
     "friendsofphp/php-cs-fixer": "^2.18",
     "timeweb/phpstan-enum": "^2.2"
@@ -34,6 +34,7 @@
     "test": "phpunit",
     "test-with-coverage": "phpunit --coverage-clover clover.xml ",
     "phpstan": "phpstan analyze -l7 src tests",
+    "psalm": "psalm",
     "cs-check": "php-cs-fixer fix --dry-run --diff src/",
     "cs-fix": "php-cs-fixer fix --diff src/"
   }

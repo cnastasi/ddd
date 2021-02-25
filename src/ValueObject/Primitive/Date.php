@@ -129,5 +129,4 @@ final class Date implements CompositeValueObject, Serializable, Stringable, Comp
     {
         return (int)sprintf('%04d%02d%02d000000', $this->years, $this->months, $this->days);
     }
-
 }
