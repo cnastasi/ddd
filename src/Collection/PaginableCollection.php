@@ -4,16 +4,9 @@ declare(strict_types=1);
 
 namespace CNastasi\DDD\Collection;
 
-use CNastasi\DDD\Contract\Entity;
 use CNastasi\DDD\Contract\Paginable;
 
-/**
- * @template K of int|string
- * @template T of Entity
- *
- * @extends EntityCollection<K, T>
- */
-abstract class PaginableEntityCollection extends EntityCollection implements Paginable
+abstract class PaginableCollection extends AbstractCollection implements Paginable
 {
     protected ?int $total = null;
 
