@@ -14,5 +14,4 @@ use CNastasi\DDD\Contract\Entity;
  */
 abstract class EntityCollection extends AbstractCollection
 {
-
 }
