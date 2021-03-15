@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace CNastasi\DDD\Collection;
 
-class Filter
+use CNastasi\DDD\Contract\Stringable;
+
+class Filter implements Stringable
 {
     private ?string $value;
 
@@ -21,5 +23,15 @@ class Filter
     public function isSet(): bool
     {
         return $this->value !== null;
+    }
+
+    public function isEmpty(): bool
+    {
+        return empty($this->value);
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->value;
     }
 }
