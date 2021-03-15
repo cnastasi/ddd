@@ -22,12 +22,7 @@ class Filter implements Stringable
 
     public function isSet(): bool
     {
-        return $this->value !== null;
-    }
-
-    public function isEmpty(): bool
-    {
-        return empty($this->value);
+        return $this->value !== null && $this->value !== '';
     }
 
     public function __toString(): string
