@@ -4,14 +4,22 @@ declare(strict_types=1);
 
 namespace CNastasi\DDD\ValueObject\Primitive;
 
+use CNastasi\DDD\Contract\ComparableNumber;
 use CNastasi\DDD\Contract\CompositeValueObject;
-use CNastasi\DDD\Error\InvalidDate;
+use CNastasi\DDD\Contract\Serializable;
+use CNastasi\DDD\Contract\Stringable;
 use CNastasi\DDD\Error\InvalidDateTime;
-use CNastasi\DDD\Error\InvalidTime;
+use CNastasi\DDD\ValueObject\ComparableNumberTrait;
 use DateTimeImmutable;
+use DateTimeInterface;
 
-final class DateTime implements CompositeValueObject
+/**
+ * @psalm-immutable
+ */
+final class DateTime implements CompositeValueObject, Serializable, Stringable, ComparableNumber
 {
+    use ComparableNumberTrait;
+
     public const SIMPLE = 'Y-m-d H:i:s';
     public const RFC3339 = \DateTimeInterface::RFC3339;
     private const DATE_TIME_FORMAT = '/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/';
@@ -41,14 +49,9 @@ final class DateTime implements CompositeValueObject
         return new DateTime(Date::now(), Time::now());
     }
 
-    private static function format(Date $date, Time $time): string
-    {
-        return "{$date} {$time}";
-    }
-
     public function __toString(): string
     {
-        return self::format($this->date, $this->time);
+        return "{$this->date} {$this->time}";
     }
 
     public static function fromDateTimeInterface(\DateTimeInterface $dateTime): DateTime
@@ -59,6 +62,27 @@ final class DateTime implements CompositeValueObject
         return new DateTime($date, $time);
     }
 
+    public function toDateTimeInterface(): \DateTimeInterface
+    {
+        $dateTime = (string) $this;
+
+        $result = \DateTimeImmutable::createFromFormat(self::SIMPLE, $dateTime);
+
+        if ($result === false) {
+            throw new InvalidDateTime($dateTime);
+        }
+
+        return $result;
+    }
+
+    public function format(string $format): string
+    {
+        /** @var DateTimeImmutable $dateTime */
+        $dateTime = $this->toDateTimeInterface();
+
+        return $dateTime->format($format);
+    }
+
     public static function fromString(string $dateTimeString, string $format = self::SIMPLE): DateTime
     {
         $dateTime = DateTimeImmutable::createFromFormat($format, $dateTimeString);
@@ -67,6 +91,16 @@ final class DateTime implements CompositeValueObject
             throw new InvalidDateTime($dateTimeString);
         }
 
-        return static::fromDateTimeInterface($dateTime);
+        return DateTime::fromDateTimeInterface($dateTime);
+    }
+
+    public function serialize()
+    {
+        return $this->__toString();
+    }
+
+    public function toInt(): int
+    {
+        return $this->date->toInt() + $this->time->toInt();
     }
 }

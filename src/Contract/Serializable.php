@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace CNastasi\DDD\Contract;
 
+/**
+ * @template T
+ */
 interface Serializable
 {
     /**
-     * @return array<mixed>|int|string|null
+     * @psalm-return T
+     * @return mixed
      */
     public function serialize();
 }

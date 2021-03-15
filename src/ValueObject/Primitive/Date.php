@@ -4,14 +4,22 @@ declare(strict_types=1);
 
 namespace CNastasi\DDD\ValueObject\Primitive;
 
+use CNastasi\DDD\Contract\ComparableNumber;
 use CNastasi\DDD\Contract\CompositeValueObject;
 use CNastasi\DDD\Contract\Serializable;
+use CNastasi\DDD\Contract\Stringable;
 use CNastasi\DDD\Error\InvalidDate;
+use CNastasi\DDD\ValueObject\ComparableNumberTrait;
 use DateTimeImmutable;
 use DateTimeInterface;
 
-final class Date implements CompositeValueObject, Serializable
+/**
+ * @psalm-immutable
+ */
+final class Date implements CompositeValueObject, Serializable, Stringable, ComparableNumber
 {
+    use ComparableNumberTrait;
+
     private int $days;
 
     private int $months;
@@ -25,16 +33,6 @@ final class Date implements CompositeValueObject, Serializable
         $this->days = $days;
         $this->months = $months;
         $this->years = $years;
-    }
-
-    public static function now(): Date
-    {
-        return static::fromDateTimeInterface(new DateTimeImmutable());
-    }
-
-    private static function toString(int $years, int $months, int $days): string
-    {
-        return \sprintf('%4d-%02d-%02d', $years, $months, $days);
     }
 
     public function getDays(): int
@@ -52,9 +50,27 @@ final class Date implements CompositeValueObject, Serializable
         return $this->years;
     }
 
+    public static function now(): Date
+    {
+        return Date::fromDateTimeInterface(new DateTimeImmutable());
+    }
+
+    /**
+     * @psalm-pure
+     */
+    private static function toString(int $years, int $months, int $days): string
+    {
+        return \sprintf('%4d-%02d-%02d', $years, $months, $days);
+    }
+
+    public function toDateTime(): DateTime
+    {
+        return new DateTime($this, new Time(0, 0, 0));
+    }
+
     public function __toString(): string
     {
-        return static::toString($this->years, $this->months, $this->days);
+        return Date::toString($this->years, $this->months, $this->days);
     }
 
     public function toDateTimeInterface(): DateTimeInterface
@@ -76,7 +92,7 @@ final class Date implements CompositeValueObject, Serializable
         $months = (int)$date->format('m');
         $years = (int)$date->format('Y');
 
-        return new static($days, $months, $years);
+        return new Date($days, $months, $years);
     }
 
     public static function fromString(string $dateAsString, string $format = DateTimeInterface::RFC3339): Date
@@ -87,7 +103,7 @@ final class Date implements CompositeValueObject, Serializable
             throw new InvalidDate($dateAsString);
         }
 
-        return static::fromDateTimeInterface($date);
+        return Date::fromDateTimeInterface($date);
     }
 
     private function assertDateIsValid(int $days, int $months, int $years): void
@@ -104,5 +120,10 @@ final class Date implements CompositeValueObject, Serializable
     public function serialize(): string
     {
         return $this->__toString();
+    }
+
+    public function toInt(): int
+    {
+        return (int)sprintf('%04d%02d%02d000000', $this->years, $this->months, $this->days);
     }
 }

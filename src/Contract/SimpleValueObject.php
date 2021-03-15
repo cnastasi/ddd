@@ -10,17 +10,14 @@ namespace CNastasi\DDD\Contract;
 interface SimpleValueObject extends ValueObject
 {
     /**
-     * SimpleValueObject constructor.
-     *
-     * @phpstan-param T $value
-     *
+     * @psalm-param T $value
      * @param mixed $value
      */
     public function __construct($value);
 
     /**
+     * @psalm-return T
      * @return mixed
-     * @phpstan-return T
      */
     public function value();
 }
