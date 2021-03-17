@@ -11,6 +11,7 @@ interface SimpleValueObject extends ValueObject
 {
     /**
      * @psalm-param T $value
+     * @phpstan-param T $value
      * @param mixed $value
      */
     public function __construct($value);

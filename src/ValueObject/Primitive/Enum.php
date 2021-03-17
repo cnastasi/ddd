@@ -6,6 +6,7 @@ namespace CNastasi\DDD\ValueObject\Primitive;
 
 use CNastasi\DDD\Contract\Comparable;
 use CNastasi\DDD\Contract\SimpleValueObject;
+use CNastasi\DDD\Contract\Stringable;
 
 /**
  * @psalm-suppress MissingImmutableAnnotation
@@ -13,7 +14,7 @@ use CNastasi\DDD\Contract\SimpleValueObject;
  * @extends \MyCLabs\Enum\Enum<string>
  * @implements SimpleValueObject<string>
  */
-abstract class Enum extends \MyCLabs\Enum\Enum implements SimpleValueObject
+abstract class Enum extends \MyCLabs\Enum\Enum implements SimpleValueObject, Stringable
 {
     public function value(): string
     {
@@ -23,5 +24,13 @@ abstract class Enum extends \MyCLabs\Enum\Enum implements SimpleValueObject
     public function equalsTo(Comparable $item): bool
     {
         return $this->equals($item);
+    }
+
+    /**
+     * @psalm-suppress MissingImmutableAnnotation
+     */
+    public function __toString(): string
+    {
+        return $this->value();
     }
 }

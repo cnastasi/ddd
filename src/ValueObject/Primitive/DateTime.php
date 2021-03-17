@@ -62,7 +62,15 @@ final class DateTime implements CompositeValueObject, Serializable, Stringable, 
         return new DateTime($date, $time);
     }
 
+    /**
+     * @see toDateTimeImmutable
+     */
     public function toDateTimeInterface(): \DateTimeInterface
+    {
+        return $this->toDateTimeImmutable();
+    }
+
+    public function toDateTimeImmutable(): \DateTimeImmutable
     {
         $dateTime = (string) $this;
 

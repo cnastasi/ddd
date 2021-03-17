@@ -73,7 +73,15 @@ final class Date implements CompositeValueObject, Serializable, Stringable, Comp
         return Date::toString($this->years, $this->months, $this->days);
     }
 
+    /**
+     * @see toDateTimeImmutable
+     */
     public function toDateTimeInterface(): DateTimeInterface
+    {
+        return $this->toDateTimeImmutable();
+    }
+
+    public function toDateTimeImmutable(): \DateTimeImmutable
     {
         $dateAsString = $this->__toString() . 'T00:00:00';
 
