@@ -6,5 +6,4 @@ namespace CNastasi\DDD\Collection;
 
 interface Filter
 {
-
 }

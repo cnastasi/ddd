@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace CNastasi\DDD\ValueObject\Primitive;
+namespace CNastasi\DDD\Tests\ValueObject\Primitive;
 
 use CNastasi\DDD\Error\InvalidString;
+use CNastasi\DDD\ValueObject\Primitive\Text;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -26,6 +27,7 @@ class TextTest extends TestCase
     {
         $this->expectException(InvalidString::class);
 
+        /** @psalm-suppress all */
         new class ('test') extends Text {
             protected string $pattern = '/^\\.{3}$/';
         };
