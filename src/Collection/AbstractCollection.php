@@ -128,10 +128,12 @@ abstract class AbstractCollection implements Collection
      */
     public function first(): ?ValueObject
     {
+        $array = $this->collection->getArrayCopy();
+        
         /** @var T|false $first */
-        $first = \reset($this->collection);
+        $first = \reset($array);
 
-        return $first === false ? null : $first;
+        return $first ?: null;
     }
 
     /**
@@ -145,5 +147,27 @@ abstract class AbstractCollection implements Collection
         $item = $this->collection->offsetGet($key);
 
         return $item;
+    }
+    
+    /**
+     * @template R
+     * @psalm-param callable(T): R $func
+     * @psalm-return array<int, R>
+     * @param callable $func
+     * @return array
+     */
+    public function map(callable $func): array
+    {
+        $result = [];
+    
+        /**
+         * @psalm-var T $element
+         * @psalm-var int $key
+         */
+        foreach ($this->collection as $key => $element) {
+            $result[$key] = $func($element);
+        }
+        
+        return $result;
     }
 }

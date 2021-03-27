@@ -26,6 +26,7 @@ class TextTest extends TestCase
     {
         $this->expectException(InvalidString::class);
 
+        /** @psalm-suppress all */
         new class ('test') extends Text {
             protected string $pattern = '/^\\.{3}$/';
         };

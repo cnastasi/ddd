@@ -9,8 +9,6 @@ use CNastasi\DDD\ValueObject\AbstractEntity;
 use CNastasi\DDD\ValueObject\IntegerIdentifier;
 
 /**
- * @psalm-immutable
- *
  * @extends AbstractEntity<IntegerIdentifier>
  */
 class DummyEntity extends AbstractEntity
