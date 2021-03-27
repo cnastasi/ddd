@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace CNastasi\DDD\Tests\ValueObject\Primitive;
+namespace CNastasi\DDD\ValueObject\Primitive;
 
-use CNastasi\DDD\ValueObject\Primitive\Date;
 use PHPUnit\Framework\TestCase;
 
 class DateTest extends TestCase

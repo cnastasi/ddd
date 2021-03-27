@@ -28,8 +28,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "CNastasi\\DDD\\Tests\\": "tests/",
-      "CNastasi\\DDD\\Examples\\": "examples/"
+      "CNastasi\\DDD\\": "tests/"
     }
   },
   "scripts": {

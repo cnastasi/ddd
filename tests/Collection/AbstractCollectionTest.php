@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace CNastasi\DDD\Tests\Collection;
+namespace CNastasi\DDD\Collection;
 
-use CNastasi\DDD\Contract\ValueObject;
 use CNastasi\DDD\Examples\DummyCollection;
 use CNastasi\DDD\Examples\DummyEntity;
 use CNastasi\DDD\ValueObject\IntegerIdentifier;

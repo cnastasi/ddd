@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace CNastasi\DDD\Tests\ValueObject\Primitive;
+namespace CNastasi\DDD\ValueObject\Primitive;
 
 use CNastasi\DDD\Error\InvalidString;
-use CNastasi\DDD\ValueObject\Primitive\Text;
 use PHPUnit\Framework\TestCase;
 
 /**
