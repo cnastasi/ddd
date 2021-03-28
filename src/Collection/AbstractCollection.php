@@ -151,10 +151,8 @@ abstract class AbstractCollection implements Collection
     
     /**
      * @template R
-     * @psalm-param callable(T): R $func
-     * @psalm-return array<int, R>
-     * @param callable $func
-     * @return array
+     * @param callable(T): R $func
+     * @return array<array-key, R>
      */
     public function map(callable $func): array
     {
