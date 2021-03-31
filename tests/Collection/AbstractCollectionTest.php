@@ -103,4 +103,13 @@ class AbstractCollectionTest extends TestCase
         
         self::assertEquals([1], $mapped);
     }
+    
+    public function test_to_array(): void
+    {
+        $coll = new DummyCollection();
+        $entity = new DummyEntity(new IntegerIdentifier(1));
+        $coll->addItem($entity);
+    
+        self::assertSame([$entity], $coll->toArray());
+    }
 }
