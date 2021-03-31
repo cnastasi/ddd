@@ -20,7 +20,7 @@ use Traversable;
 abstract class AbstractCollection implements Collection
 {
     /**
-     * @property ArrayObject<T>
+     * @property ArrayObject<K, T>
      */
     protected ArrayObject $collection;
 
@@ -167,5 +167,16 @@ abstract class AbstractCollection implements Collection
         }
         
         return $result;
+    }
+    
+    /**
+     * @return K[]
+     */
+    public function toArray(): array
+    {
+        /** @var K[] $arrayed */
+        $arrayed = $this->collection->getArrayCopy();
+        
+        return $arrayed;
     }
 }
