@@ -83,7 +83,7 @@ final class Date implements CompositeValueObject, Serializable, Stringable, Comp
 
     public function toDateTimeImmutable(): \DateTimeImmutable
     {
-        $dateAsString = $this->__toString() . 'T00:00:00';
+        $dateAsString = $this->__toString() . 'T00:00:00Z';
 
         $result = DateTimeImmutable::createFromFormat(DateTimeImmutable::RFC3339, $dateAsString);
 
