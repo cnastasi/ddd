@@ -24,6 +24,7 @@ class TextTest extends TestCase
         $myText = new Text($text);
 
         self::assertSame($text, $myText->value());
+        self::assertSame($text, $myText->__toString());
     }
 
     public function test_error(): void
