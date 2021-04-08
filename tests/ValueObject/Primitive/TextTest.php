@@ -8,8 +8,6 @@ use stdClass;
 use PHPUnit\Framework\TestCase;
 use CNastasi\DDD\Error\InvalidString;
 use CNastasi\DDD\Error\IncomparableObjects;
-use CNastasi\DDD\ValueObject\Primitive\Date;
-use CNastasi\DDD\ValueObject\Primitive\Integer;
 
 /**
  * Class TextTest
