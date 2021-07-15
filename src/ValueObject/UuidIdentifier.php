@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CNastasi\DDD\ValueObject;
 
+use CNastasi\DDD\Contract\Comparable;
 use CNastasi\DDD\Contract\CompositeValueObject;
 use CNastasi\DDD\Contract\Identifier;
 use CNastasi\DDD\Error\IncomparableObjects;
@@ -44,13 +45,18 @@ class UuidIdentifier implements CompositeValueObject, Identifier
         return new static(Uuid::fromString($value));
     }
 
-    final public function equalsTo($id): bool
+    /**
+     * @param static $item
+     *
+     * @return bool
+     */
+    final public function equalsTo(Comparable $item): bool
     {
-        if ($id instanceof static) {
-            return $id->value->equals($this->value);
+        if ($item instanceof static) {
+            return $item->value->equals($this->value);
         }
 
-        throw new IncomparableObjects($id, $this);
+        throw new IncomparableObjects($item, $this);
     }
 
     /**
