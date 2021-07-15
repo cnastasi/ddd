@@ -11,8 +11,6 @@ use CNastasi\DDD\Contract\Identifier;
  * @template K of Identifier
  *
  * @implements Entity<K>
- *
- * @psalm-immutable
  */
 abstract class AbstractEntity implements Entity
 {

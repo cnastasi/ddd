@@ -7,7 +7,7 @@ namespace CNastasi\DDD\Contract;
 /**
  * @template K of Identifier
  */
-interface Entity extends CompositeValueObject
+interface Entity
 {
     /**
      * @return K
