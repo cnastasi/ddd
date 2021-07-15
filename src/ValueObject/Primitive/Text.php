@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CNastasi\DDD\ValueObject\Primitive;
 
+use CNastasi\DDD\Contract\Comparable;
 use CNastasi\DDD\Contract\SimpleValueObject;
 use CNastasi\DDD\Contract\Stringable;
 use CNastasi\DDD\Error\IncomparableObjects;
@@ -46,7 +47,12 @@ class Text implements SimpleValueObject, Stringable
         return $castedValue;
     }
 
-    public function equalsTo($item): bool
+    /**
+     * @param static $item
+     *
+     * @return bool
+     */
+    public function equalsTo(Comparable $item): bool
     {
         if ($item instanceof static) {
             return $item->value === $this->value;

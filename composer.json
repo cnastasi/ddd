@@ -37,6 +37,11 @@
     "test-with-coverage": "phpunit --coverage-clover clover.xml ",
     "psalm": "psalm",
     "cs-check": "php-cs-fixer fix --dry-run --diff src/",
-    "cs-fix": "php-cs-fixer fix --diff src/"
+    "cs-fix": "php-cs-fixer fix --diff src/",
+    "test:all": [
+      "@cs-check",
+      "@psalm",
+      "@test"
+    ]
   }
 }
