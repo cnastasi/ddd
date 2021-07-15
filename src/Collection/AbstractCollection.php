@@ -7,6 +7,7 @@ namespace CNastasi\DDD\Collection;
 use ArrayObject;
 use Closure;
 use CNastasi\DDD\Contract\Collection;
+use CNastasi\DDD\Contract\Comparable;
 use CNastasi\DDD\Contract\ValueObject;
 use CNastasi\DDD\Error\UnsupportedCollectionItem;
 use Traversable;
@@ -17,7 +18,7 @@ use Traversable;
  *
  * @implements Collection<K, T>
  */
-abstract class AbstractCollection implements Collection
+abstract class AbstractCollection implements Collection, Comparable
 {
     /**
      * @property ArrayObject<K, T>
@@ -129,7 +130,7 @@ abstract class AbstractCollection implements Collection
     public function first(): ?ValueObject
     {
         $array = $this->collection->getArrayCopy();
-        
+
         /** @var T|false $first */
         $first = \reset($array);
 
@@ -148,7 +149,7 @@ abstract class AbstractCollection implements Collection
 
         return $item;
     }
-    
+
     /**
      * @template R
      * @param callable(T): R $func
@@ -157,7 +158,7 @@ abstract class AbstractCollection implements Collection
     public function map(callable $func): array
     {
         $result = [];
-    
+
         /**
          * @psalm-var T $element
          * @psalm-var int $key
@@ -165,10 +166,10 @@ abstract class AbstractCollection implements Collection
         foreach ($this->collection as $key => $element) {
             $result[$key] = $func($element);
         }
-        
+
         return $result;
     }
-    
+
     /**
      * @return K[]
      */
@@ -176,7 +177,34 @@ abstract class AbstractCollection implements Collection
     {
         /** @var K[] $arrayed */
         $arrayed = $this->collection->getArrayCopy();
-        
+
         return $arrayed;
+    }
+
+    /**
+     * @param static $collection
+     * @return bool
+     */
+    public function equalsTo(Comparable $collection): bool
+    {
+        $count = $this->count();
+
+        if ($collection->count() !== $count) {
+            return false;
+        }
+
+        /** @var array<K, T> $array1 */
+        $array1 = $this->toArray();
+
+        /** @var array<K, T> $array2 */
+        $array2 = $collection->toArray();
+
+        foreach ($array1 as $key => $element) {
+            if (!$array2[$key]->equalsTo($element)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
