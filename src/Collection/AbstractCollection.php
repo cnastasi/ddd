@@ -171,11 +171,11 @@ abstract class AbstractCollection implements Collection, Comparable
     }
 
     /**
-     * @return K[]
+     * @return T[]
      */
     public function toArray(): array
     {
-        /** @var K[] $arrayed */
+        /** @var T[] $arrayed */
         $arrayed = $this->collection->getArrayCopy();
 
         return $arrayed;
