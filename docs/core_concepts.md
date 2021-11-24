@@ -36,6 +36,7 @@ function doStuff(Age $age): void {
 }
 ```
 Of course, `Age` is not something generic, but it should follow the rules of our domain. Also, `Age` could/should be immutable, so we can be sure that nobody will never change its value.
+
 ## Principles
 - Value objects should be comparable. A method like `equalsTo` or `sameOf` should be provided.
 
@@ -68,12 +69,12 @@ class Age
         return (string)$this->age;
     }
 
-    #[Pure] public function equalsTo(Age $age): bool
+    public function equalsTo(Age $age): bool
     {
         return $this->age === $age->age;
     }
 
-    #[Pure] public static function create(int|Age $age): Age|InvalidValueObject
+    public static function create(int|Age $age): Age|InvalidValueObject
     {
         if ($age instanceof self) {
             return $age;
@@ -171,20 +172,18 @@ final class Person
 
     public function equalsTo(Person $person): bool
     {
-        return $person->age->equalsTo($this->age)
+        return $person instanceof self 
+            && $person->age->equalsTo($this->age)
             && $person->name->equalsTo($this->name);
     }
 
     final public static function create(string $name, int $age): Person|ValidationError
     {
-        /** @var Person|ValidationError $instance */
-        $instance = factory(
+        return factory(
             Person::class,
             Name::create($name),
             Age::create($age)
         );
-
-        return $instance;
     }
 }
 ```
