@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace CNastasi\DDD\Error;
 
+use JetBrains\PhpStorm\Pure;
+
 class InvalidString extends ValueError
 {
-    public function __construct(string $value, string $pattern)
+    #[Pure] public function __construct(string $regex, string $value)
     {
-        parent::__construct("The value {$value} doesn't match pattern $pattern.");
+        parent::__construct("Invalid string: '{$value}' does not match with '{$regex}'");
     }
 }
