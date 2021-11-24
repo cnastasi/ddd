@@ -9,14 +9,16 @@ The Person should have a `Name`.
 ```php
 class Name extends Text {
     protected string $regex = "/^[A-Za-z]{2,20}$/"; // Lenght min:2, max:20. No spaces
-}
-
-/* Right name */
+} 
+```
+Our value object is self validating, so cannot exist an instance of `Name` that doesn't follow the rules of our domain.
+```php
 $name = Name::create('John'); // it returns a Name
 
 var_dump((string)$name); // string(4) "John"
-
-/* Wrong name */
+```
+This means that if we try to create an invalid name, we will have an `InvalidValueObject` instead of our instance.
+```php
 $wrongName = Name::create('Wrong name with spaces'); // it returns an InvalidValueObject
 
 var_dump($wrongName->getMessage());  // string(81) "Invalid string: 'Wrong name with spaces' does not match with '/^[A-Za-z]{2,20}$/'"
@@ -24,7 +26,7 @@ var_dump($wrongName->getMessage());  // string(81) "Invalid string: 'Wrong name 
 var_dump($wrongName->getType()); // string(14) "invalid string"
 ```
 
-That's not enough, we want a `FirstName` and a `LastName` and we will reuse `Name` for it
+Next step. One name is not enough, we need a `FullName` object with a `FirstName` and a `LastName`. 
 
 ```php
 class FullName  {
@@ -36,8 +38,9 @@ class FullName  {
     public function getFirstName(): Name { return $this->firstName;}
     public function getLastName(): Name { return $this->lastName; }
 }
-
-/*  How to create the object */ 
+```
+And then we can instantiate it in this way.
+```php
 $fullName = new FullName (
     Name::create('John'),
     Name::create('Smith')
@@ -62,14 +65,17 @@ class FullName  {
     
     public static function create(string|Name $firstName, string|Name $lastName): static|ValidationError {
         return factory (
-            __CLASS__,
+            FullName::class,
             Name::create($firstName),
             Name::create($lastName)
         );
     }
 }
+```
+As you can see, the constructor is `private` and the arguments have the union type `string|Name` so we can pass both.
 
-/*  How to create the object */
+Now it's enough call the static method `create` and the `factory` helper will do the magic.  
+```php
 $fullName = FullName::create('John', 'Smith');
 
 /** OR **/
@@ -78,11 +84,9 @@ $data = ['firstName' => 'John', 'lastName' => 'Smith'];
 
 $fullName = FullName::create(...$data);   
 ```
-As you can se, the constructor is `private` and the arguments have the union type `string|Name` so we can pass both. 
+The `create` method will return or itself or, in case of invalid data, it will combine object all the errors generated in a `ValidationError`.
 
-The create method will return or itself, or a `ValidationError`. 
 
-The `factory` helper will do the magic. It will combine in a `ValidationError` object all the errors generated.
 
 ```php
 $fullName = FullName::create('John wrong name', 'Smith wrong name'); // It returns a ValidationError
