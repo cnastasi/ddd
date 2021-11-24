@@ -34,4 +34,22 @@ class Text implements Stringable
             throw new InvalidString($this->regex, $value);
         }
     }
+
+    final public static function create(string|Stringable $value): static|InvalidValueObject
+    {
+        try {
+            return new static((string)$value);
+        } catch (InvalidString $exception) {
+            return new InvalidValueObject('invalid string', $exception->getMessage());
+        }
+    }
+
+    #[Pure] public function equalsTo(Text $value): bool
+    {
+        return $this->value === $value->value;
+    }
+
+    public function toUpper(): static {
+        return new static(strtoupper($this->value));
+    }
 }

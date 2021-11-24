@@ -42,4 +42,16 @@ class ValidationError extends ValueError
             $this->addError($error->addPrefix($prefix));
         }
     }
+
+    #[Pure] public function getInvalidFields(): array
+    {
+        $invalidFields = [];
+
+        foreach ($this->errors as $error) {
+            $key =  $error->getKey();
+            $invalidFields[$key] = $error->getError()->getMessage();
+        }
+
+        return ['class'=> $this->className, 'fields' => $invalidFields];
+    }
 }
