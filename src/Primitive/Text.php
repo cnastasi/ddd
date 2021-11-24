@@ -49,7 +49,8 @@ class Text implements Stringable
         return $this->value === $value->value;
     }
 
-    public function toUpper(): static {
+    public function toUpper(): static
+    {
         return new static(strtoupper($this->value));
     }
 }

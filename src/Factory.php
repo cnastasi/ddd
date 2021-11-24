@@ -89,10 +89,12 @@ final class Factory
             /** @var mixed */
             $argument = $args[$index];
 
-            match(get_class($argument)) {
-                InvalidValueObject::class  => $errors->addError(new FieldError($parameter, $argument)),
-                ValidationError::class => $errors->merge($parameter, $argument)
-            };
+            if (is_object($argument)) {
+                match (get_class($argument)) {
+                    InvalidValueObject::class => $errors->addError(new FieldError($parameter, $argument)),
+                    ValidationError::class => $errors->merge($parameter, $argument)
+                };
+            }
         }
 
         if ($errors->hasErrors()) {
